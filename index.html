@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            background-color: #ffe6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            text-align: center;
+            overflow: hidden; /* Prevents scrolling when button moves */
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 400px;
+        }
+
+        h1 { color: #ff4d4d; }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 100px; /* Space for buttons to breathe */
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #yesBtn {
+            background-color: #ff4d4d;
+            color: white;
+            z-index: 1;
+        }
+
+        #noBtn {
+            background-color: #cccccc;
+            color: #333;
+            transition: 0.2s;
+            position: relative; /* Changed to relative for mobile start */
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainCard">
+        <h1>Nurgledi, will you be my Valentine? ❤️</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes!</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <div class="container hidden" id="successMessage">
+        <h2>Yay! Best choice ever! 🥰</h2>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const mainCard = document.getElementById('mainCard');
+        const successMessage = document.getElementById('successMessage');
+
+        let yesSize = 1.2; 
+
+        // Function to move the button
+        function moveButton() {
+            // Make the button jump around
+            noBtn.style.position = 'absolute';
+            
+            // Stay within the screen limits
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+
+            // Make the YES button bigger every time she tries to click NO
+            yesSize += 0.2;
+            yesBtn.style.transform = `scale(${yesSize})`;
+        }
+
+        // Works for computer mouse
+        noBtn.addEventListener('mouseover', moveButton);
+
+        // Works for finger taps on phones
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Stops the actual click from happening
+            moveButton();
+        });
+
+        yesBtn.addEventListener('click', () => {
+            mainCard.classList.add('hidden');
+            successMessage.classList.remove('hidden');
+            noBtn.classList.add('hidden'); // Hide the "No" button too
+        });
+    </script>
+</body>
+</html>
